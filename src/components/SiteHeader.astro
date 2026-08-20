@@ -1,0 +1,15 @@
+---
+import Brand from './Brand.astro';
+---
+<header class="sticky top-0 z-50 border-b border-[#21362e]/10 bg-[#fbf7ee]/92 backdrop-blur-md">
+  <div class="shell flex h-18 items-center justify-between gap-4">
+    <Brand compact />
+    <nav aria-label="Navigasi utama" class="hidden items-center gap-6 text-sm font-semibold md:flex">
+      <a class="focus-ring rounded-md hover:text-[#9b4b35]" href="/#kisah">Bentang & sejarah</a>
+      <a class="focus-ring rounded-md hover:text-[#9b4b35]" href="/#rencana">Rencana kunjungan</a>
+      <a class="focus-ring rounded-md hover:text-[#9b4b35]" href="/#akses">Akses</a>
+      <a class="focus-ring rounded-md hover:text-[#9b4b35]" href="/#faq">FAQ</a>
+    </nav>
+    <a class="focus-ring rounded-full bg-[#21362e] px-4 py-2.5 text-xs font-bold text-[#fbf7ee] transition hover:bg-[#9b4b35]" href="https://maps.app.goo.gl/Pb3rVNTMea9Z7Uby5" target="_blank" rel="noreferrer">Buka peta ↗</a>
+  </div>
+</header>

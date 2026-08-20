@@ -1,0 +1,60 @@
+---
+import '../styles/global.css';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  jsonLd?: object | object[];
+}
+const { title, description, image = '/images/ngarai-sianok-hero.jpg', jsonLd } = Astro.props;
+const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).toString() : undefined;
+const absoluteImage = Astro.site ? new URL(image, Astro.site).toString() : undefined;
+---
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width" />
+  <meta name="theme-color" content="#21362e" />
+  <meta name="description" content={description} />
+  <meta name="generator" content={Astro.generator} />
+  <title>{title}</title>
+  {canonical && <link rel="canonical" href={canonical} />}
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon-32.png" sizes="32x32" />
+  <link rel="icon" href="/favicon-16.png" sizes="16x16" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="id_ID" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  {canonical && <meta property="og:url" content={canonical} />}
+  {absoluteImage && <meta property="og:image" content={absoluteImage} />}
+  <meta name="twitter:card" content="summary_large_image" />
+  {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+  <script is:inline>
+    (() => {
+      const KEY = 'sianok-cookie-preferences';
+      let prefs = null;
+      try { prefs = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (_) {}
+      if (!prefs?.analytics) return;
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function(){ window.dataLayer.push(arguments); };
+      window.gtag('js', new Date());
+      window.gtag('config', 'G-HXM22WWPKP', { anonymize_ip: true });
+      const s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-HXM22WWPKP';
+      document.head.appendChild(s);
+    })();
+  </script>
+</head>
+<body>
+  <SiteHeader />
+  <main><slot /></main>
+  <SiteFooter />
+</body>
+</html>

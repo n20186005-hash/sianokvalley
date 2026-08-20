@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Pengaturan Cookie — Panduan Ngarai Sianok" description="Kelola persetujuan cookie yang diperlukan, analitik, preferensi, dan pemasaran untuk Panduan Ngarai Sianok.">
+<section class="shell py-16 md:py-24"><p class="kicker">Kontrol privasi</p><h1 class="display mt-4 text-5xl font-bold md:text-7xl">Pengaturan Cookie</h1><p class="mt-4 text-sm text-[#667168]">Terakhir diperbarui: Agustus 2026</p>
+<div class="policy mt-10 max-w-3xl"><p>Kami menggunakan teknologi penyimpanan seminimal mungkin. Pilihan di bawah disimpan pada perangkat Anda. Kategori analitik baru aktif setelah Anda menyetujuinya; kategori pemasaran tidak digunakan oleh situs ini.</p></div>
+<div class="mt-10 max-w-3xl space-y-4" id="cookie-panel">
+  <div class="card flex items-center justify-between gap-6 p-6"><div><h2 class="font-extrabold">Cookie diperlukan</h2><p class="mt-2 text-sm leading-6 text-[#667168]">Dibutuhkan untuk fungsi dasar, keamanan, dan penyimpanan pilihan persetujuan.</p></div><span class="shrink-0 rounded-full bg-[#dfe7dd] px-3 py-1.5 text-xs font-bold">Selalu aktif</span></div>
+  <label class="card flex cursor-pointer items-center justify-between gap-6 p-6"><div><h2 class="font-extrabold">Cookie analitik</h2><p class="mt-2 text-sm leading-6 text-[#667168]">Google Analytics membantu memahami penggunaan situs secara agregat. Skrip dimuat hanya jika pilihan ini aktif.</p></div><input id="analytics" class="h-6 w-6 accent-[#315848]" type="checkbox" /></label>
+  <label class="card flex cursor-pointer items-center justify-between gap-6 p-6"><div><h2 class="font-extrabold">Cookie preferensi</h2><p class="mt-2 text-sm leading-6 text-[#667168]">Menyimpan pilihan antarmuka yang mungkin ditambahkan, selain persetujuan privasi yang bersifat diperlukan.</p></div><input id="preferences" class="h-6 w-6 accent-[#315848]" type="checkbox" /></label>
+  <div class="card flex items-center justify-between gap-6 p-6 opacity-75"><div><h2 class="font-extrabold">Cookie pemasaran</h2><p class="mt-2 text-sm leading-6 text-[#667168]">Situs ini tidak memuat iklan personalisasi atau pelacak pemasaran.</p></div><span class="shrink-0 rounded-full bg-[#eee5df] px-3 py-1.5 text-xs font-bold">Nonaktif</span></div>
+</div>
+<div class="mt-6 flex max-w-3xl flex-wrap gap-3"><button id="save-cookie" class="focus-ring rounded-full bg-[#21362e] px-5 py-3 text-sm font-bold text-white">Simpan preferensi</button><button id="reject-cookie" class="focus-ring rounded-full border border-[#21362e]/25 px-5 py-3 text-sm font-bold">Tolak yang opsional</button><span id="cookie-status" class="self-center text-sm text-[#667168]" role="status" aria-live="polite"></span></div>
+<div class="policy mt-12 max-w-3xl border-t border-[#21362e]/15 pt-2"><h2>Pengelolaan persetujuan</h2><p>Anda dapat mengubah pilihan kapan saja di halaman ini. Menonaktifkan kategori opsional tidak menghalangi akses ke isi utama situs. Peta Google merupakan konten pihak ketiga yang tertanam; ketika Anda memuat halaman yang berisi peta, Google dapat memproses data teknis sesuai kebijakannya.</p><h2>Cara kerja pengaturan</h2><p>Pilihan disimpan di <code>localStorage</code> browser dengan nama <code>sianok-cookie-preferences</code>. Bila analitik dimatikan, situs tidak memuat skrip Google Analytics pada kunjungan berikutnya. Jika Anda sebelumnya telah mengaktifkan analitik, beberapa cookie yang sudah dibuat oleh layanan pihak ketiga mungkin perlu dihapus melalui pengaturan browser.</p></div>
+<script is:inline>
+(() => {
+ const KEY='sianok-cookie-preferences';
+ const a=document.getElementById('analytics'); const p=document.getElementById('preferences'); const s=document.getElementById('cookie-status');
+ try { const v=JSON.parse(localStorage.getItem(KEY)||'null'); if(v){a.checked=!!v.analytics;p.checked=!!v.preferences;} } catch(_){}
+ document.getElementById('save-cookie').addEventListener('click',()=>{localStorage.setItem(KEY,JSON.stringify({analytics:a.checked,preferences:p.checked,marketing:false}));s.textContent='Preferensi tersimpan. Muat ulang halaman agar perubahan analitik berlaku.';});
+ document.getElementById('reject-cookie').addEventListener('click',()=>{a.checked=false;p.checked=false;localStorage.setItem(KEY,JSON.stringify({analytics:false,preferences:false,marketing:false}));s.textContent='Semua kategori opsional ditolak.';});
+})();
+</script>
+</section></BaseLayout>
