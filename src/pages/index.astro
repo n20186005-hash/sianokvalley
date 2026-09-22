@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE_NAME } from '../data/site';
 
 const faq = [
   ['Apa nama tempat yang paling tepat dicari di peta?', 'Gunakan Taman Panorama, Panorama Ngarai Sianok, atau Sianok Valley Panoramic di Jalan Panorama, Kayu Kubu, Kecamatan Guguk Panjang, Kota Bukittinggi.'],
@@ -16,7 +17,7 @@ const attractionLd = {
   '@context': 'https://schema.org',
   '@type': ['TouristAttraction', 'LocalBusiness'],
   name: 'Taman Panorama Ngarai Sianok',
-  alternateName: 'Sianok Valley Panoramic',
+  alternateName: ['Sianok Valley Panoramic', 'Sianok Valley'],
   description: 'Titik pandang utama untuk memahami bentang Ngarai Sianok di Bukittinggi, Sumatera Barat, dengan akses ke kawasan Lubang Japang.',
   address: {
     '@type': 'PostalAddress',
@@ -28,7 +29,6 @@ const attractionLd = {
   },
   geo: { '@type': 'GeoCoordinates', latitude: -0.3079845, longitude: 100.3652499 },
   openingHoursSpecification: [{ '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'], opens: '08:00', closes: '17:00' }],
-  aggregateRating: { '@type': 'AggregateRating', ratingValue: 4.6, bestRating: 5 },
   isAccessibleForFree: false,
   ...(Astro.site ? { url: new URL('/', Astro.site).toString(), image: [new URL('/images/ngarai-sianok-hero.jpg', Astro.site).toString(), new URL('/images/panorama-ngarai-sianok.jpg', Astro.site).toString()] } : {}),
 };
@@ -38,7 +38,7 @@ const faqLd = {
   mainEntity: faq.map(([q,a]) => ({ '@type':'Question', name:q, acceptedAnswer:{ '@type':'Answer', text:a } })),
 };
 ---
-<BaseLayout title="Ngarai Sianok Bukittinggi — Panduan Wisata Independen" description="Panduan nirlaba Taman Panorama Ngarai Sianok: bentang geologi, sejarah, tiket, jam buka, transportasi, fasilitas, keselamatan, kuliner, dan destinasi sekitar." jsonLd={[attractionLd, faqLd]}>
+<BaseLayout title={`${SITE_NAME} — Tiket, jam buka, akses & panorama`} description="Panduan nirlaba Taman Panorama Ngarai Sianok (Sianok Valley) di Bukittinggi: bentang geologi, sejarah, tiket, jam buka, transportasi, fasilitas, keselamatan, kuliner, dan destinasi sekitar." jsonLd={[attractionLd, faqLd]}>
   <section class="relative min-h-[78vh] overflow-hidden bg-[#15251f] text-white">
     <img src="/images/ngarai-sianok-hero.jpg" alt="Ngarai Sianok dengan tebing hijau dan lembah di Bukittinggi" class="absolute inset-0 h-full w-full object-cover opacity-70" fetchpriority="high" />
     <div class="absolute inset-0 bg-[linear-gradient(90deg,rgba(15,32,25,.9)_0%,rgba(15,32,25,.58)_48%,rgba(15,32,25,.15)_100%)]"></div>

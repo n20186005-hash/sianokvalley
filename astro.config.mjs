@@ -3,8 +3,8 @@ import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
 // Satu-satunya tempat untuk mengatur domain produksi.
-// Biarkan kosong sampai domain benar-benar dipilih.
-const site = '';
+// Diisi agar canonical, URL OG absolut (og:image/og:url), dan sitemap ikut terbit.
+const site = 'https://sianokvalley.com';
 
 export default defineConfig({
   site: site || undefined,

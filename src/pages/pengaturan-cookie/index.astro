@@ -1,7 +1,8 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { withSiteName } from '../../data/site';
 ---
-<BaseLayout title="Pengaturan Cookie — Panduan Ngarai Sianok" description="Kelola persetujuan cookie yang diperlukan, analitik, preferensi, dan pemasaran untuk Panduan Ngarai Sianok.">
+<BaseLayout title={withSiteName('Pengaturan Cookie')} description="Kelola persetujuan cookie yang diperlukan, analitik, preferensi, dan pemasaran untuk Panduan Ngarai Sianok.">
 <section class="shell py-16 md:py-24"><p class="kicker">Kontrol privasi</p><h1 class="display mt-4 text-5xl font-bold md:text-7xl">Pengaturan Cookie</h1><p class="mt-4 text-sm text-[#667168]">Terakhir diperbarui: Agustus 2026</p>
 <div class="policy mt-10 max-w-3xl"><p>Kami menggunakan teknologi penyimpanan seminimal mungkin. Pilihan di bawah disimpan pada perangkat Anda. Kategori analitik baru aktif setelah Anda menyetujuinya; kategori pemasaran tidak digunakan oleh situs ini.</p></div>
 <div class="mt-10 max-w-3xl space-y-4" id="cookie-panel">

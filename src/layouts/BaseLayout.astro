@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
+import { SITE_NAME } from '../data/site';
 
 interface Props {
   title: string;
@@ -29,6 +30,7 @@ const absoluteImage = Astro.site ? new URL(image, Astro.site).toString() : undef
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="id_ID" />
+  <meta property="og:site_name" content={SITE_NAME} />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   {canonical && <meta property="og:url" content={canonical} />}
