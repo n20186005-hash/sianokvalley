@@ -9,9 +9,10 @@ interface Props {
   description: string;
   image?: string;
   jsonLd?: object | object[];
+  noindex?: boolean;
 }
-const { title, description, image = '/images/ngarai-sianok-hero.jpg', jsonLd } = Astro.props;
-const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).toString() : undefined;
+const { title, description, noindex = false, image = '/images/ngarai-sianok-hero.jpg', jsonLd } = Astro.props;
+const canonical = Astro.site && !noindex ? new URL(Astro.url.pathname, Astro.site).toString() : undefined;
 const absoluteImage = Astro.site ? new URL(image, Astro.site).toString() : undefined;
 ---
 <!doctype html>
@@ -21,6 +22,7 @@ const absoluteImage = Astro.site ? new URL(image, Astro.site).toString() : undef
   <meta name="viewport" content="width=device-width" />
   <meta name="theme-color" content="#21362e" />
   <meta name="description" content={description} />
+  <meta name="robots" content={noindex ? "noindex, follow" : "index, follow"} />
   <meta name="generator" content={Astro.generator} />
   <title>{title}</title>
   {canonical && <link rel="canonical" href={canonical} />}
@@ -36,23 +38,8 @@ const absoluteImage = Astro.site ? new URL(image, Astro.site).toString() : undef
   {canonical && <meta property="og:url" content={canonical} />}
   {absoluteImage && <meta property="og:image" content={absoluteImage} />}
   <meta name="twitter:card" content="summary_large_image" />
-  {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
-  <script is:inline>
-    (() => {
-      const KEY = 'sianok-cookie-preferences';
-      let prefs = null;
-      try { prefs = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (_) {}
-      if (!prefs?.analytics) return;
-      window.dataLayer = window.dataLayer || [];
-      window.gtag = function(){ window.dataLayer.push(arguments); };
-      window.gtag('js', new Date());
-      window.gtag('config', 'G-HXM22WWPKP', { anonymize_ip: true });
-      const s = document.createElement('script');
-      s.async = true;
-      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-HXM22WWPKP';
-      document.head.appendChild(s);
-    })();
-  </script>
+  {jsonLd && <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+  <script src="/consent.js" is:inline defer></script>
 </head>
 <body>
   <SiteHeader />

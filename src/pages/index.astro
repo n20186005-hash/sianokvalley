@@ -1,13 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { SITE_NAME } from '../data/site';
 
 const faq = [
   ['Apa nama tempat yang paling tepat dicari di peta?', 'Gunakan Taman Panorama, Panorama Ngarai Sianok, atau Sianok Valley Panoramic di Jalan Panorama, Kayu Kubu, Kecamatan Guguk Panjang, Kota Bukittinggi.'],
-  ['Kapan Taman Panorama buka?', 'Dinas Pariwisata Kota Bukittinggi mencantumkan jam kunjungan Senin–Minggu pukul 08.00–17.00. Jam operasional dapat berubah karena pemeliharaan, cuaca, atau kebijakan pengelola.'],
-  ['Berapa tiket masuknya?', 'Informasi Dinas Pariwisata Kota Bukittinggi mencantumkan dewasa Rp20.000, anak-anak Rp15.000, dan wisatawan mancanegara Rp25.000. Periksa kembali sebelum datang karena tarif dapat berubah.'],
-  ['Berapa lama sebaiknya berada di kawasan ini?', 'Untuk menikmati titik pandang dan taman, siapkan sekitar 45–90 menit. Jika juga mempelajari area Lubang Japang dan membaca informasi sejarah, alokasikan sekitar 1,5–2,5 jam. Ini adalah estimasi perencanaan, bukan batas waktu resmi.'],
-  ['Apakah ada toilet dan tempat ibadah?', 'Petunjuk fasilitas di kawasan menunjukkan toilet dan mushala. Kondisi, jam akses, dan aksesibilitas fasilitas dapat berubah, jadi cek keadaan saat tiba.'],
+  ['Kapan Taman Panorama buka?', 'Google Maps diperiksa 19 Oktober 2026: Senin–Kamis dan Sabtu–Minggu 09.30–17.30, Jumat tutup. Halaman Dinas Pariwisata mencantumkan Senin–Minggu 08.00–17.00. Kedua sumber berbeda; konfirmasikan jam dan penutupan pada hari kunjungan. Daftar ini untuk titik panorama, bukan seluruh ngarai atau jadwal terowongan.'],
+  ['Berapa tiket masuknya?', 'Halaman Dinas Pariwisata berjudul Taman Panorama & Lubang Japang, diperiksa 19 Oktober 2026, mencantumkan dewasa Rp20.000, anak Rp15.000 dan mancanegara Rp25.000. Cakupan tiket, batas usia dan biaya tambahan tidak dijelaskan; tanyakan sebelum membayar. Jangan menganggap satu harga berlaku untuk taman, seluruh lembah dan terowongan.'],
+  ['Berapa lama sebaiknya berada di kawasan ini?', 'Sebagai saran perencanaan, alokasikan 45–90 menit untuk titik pandang dan taman. Kunjungan terowongan atau lembah memerlukan rencana akses dan waktu terpisah, bergantung pembukaan, antrean dan kondisi hari itu.'],
+  ['Apakah ada toilet dan tempat ibadah?', 'Foto papan petunjuk bertanggal Mei 2026 menyebut toilet dan mushala, bukan jaminan fasilitas aktif sekarang. Tanyakan lokasi, jam akses dan aksesibilitas kepada petugas saat tiba.'],
   ['Apakah aman membawa makanan?', 'Kera dapat dijumpai di kawasan. Simpan makanan dan barang kecil di dalam tas, jangan memberi makan satwa, dan jaga jarak agar perilaku liar tetap alami.'],
   ['Apakah kawasan cocok saat hujan?', 'Pemandangan dapat tertutup kabut dan permukaan bisa licin. Saat hujan lebat, jauhi tepian tebing, ikuti pembatas serta arahan petugas, dan tunda aktivitas turun ke lembah bila kondisi tidak mendukung.'],
   ['Apakah situs ini menjual tiket atau merekomendasikan usaha tertentu?', 'Tidak. Situs ini bersifat independen dan nirlaba. Informasi kuliner, penginapan, belanja, dan transportasi disajikan berdasarkan jenis layanan, bukan rekomendasi komersial tertentu.'],
@@ -15,10 +14,10 @@ const faq = [
 
 const attractionLd = {
   '@context': 'https://schema.org',
-  '@type': ['TouristAttraction', 'LocalBusiness'],
+  '@type': 'TouristAttraction',
   name: 'Taman Panorama Ngarai Sianok',
   alternateName: ['Sianok Valley Panoramic', 'Sianok Valley'],
-  description: 'Titik pandang utama untuk memahami bentang Ngarai Sianok di Bukittinggi, Sumatera Barat, dengan akses ke kawasan Lubang Japang.',
+  description: 'Panduan Taman Panorama untuk melihat Ngarai Sianok di Bukittinggi, Sumatera Barat. Akses taman, lembah dan Lubang Japang perlu dikonfirmasi terpisah.',
   address: {
     '@type': 'PostalAddress',
     streetAddress: 'Taman Jl. Panorama, Kayu Kubu',
@@ -28,8 +27,6 @@ const attractionLd = {
     addressCountry: 'ID',
   },
   geo: { '@type': 'GeoCoordinates', latitude: -0.3079845, longitude: 100.3652499 },
-  openingHoursSpecification: [{ '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'], opens: '08:00', closes: '17:00' }],
-  isAccessibleForFree: false,
   ...(Astro.site ? { url: new URL('/', Astro.site).toString(), image: [new URL('/images/ngarai-sianok-hero.jpg', Astro.site).toString(), new URL('/images/panorama-ngarai-sianok.jpg', Astro.site).toString()] } : {}),
 };
 const faqLd = {
@@ -38,15 +35,15 @@ const faqLd = {
   mainEntity: faq.map(([q,a]) => ({ '@type':'Question', name:q, acceptedAnswer:{ '@type':'Answer', text:a } })),
 };
 ---
-<BaseLayout title={`${SITE_NAME} — Tiket, jam buka, akses & panorama`} description="Panduan nirlaba Taman Panorama Ngarai Sianok (Sianok Valley) di Bukittinggi: bentang geologi, sejarah, tiket, jam buka, transportasi, fasilitas, keselamatan, kuliner, dan destinasi sekitar." jsonLd={[attractionLd, faqLd]}>
+<BaseLayout title="Taman Panorama Ngarai Sianok Bukittinggi: Jam, Tiket & Lokasi" description="Panduan Taman Panorama Ngarai Sianok di Bukittinggi: lokasi dan peta, perbedaan jam dari sumber bertanggal, tarif yang perlu dikonfirmasi, serta akses taman dan Lubang Japang." jsonLd={[attractionLd, faqLd]}>
   <section class="relative min-h-[78vh] overflow-hidden bg-[#15251f] text-white">
     <img src="/images/ngarai-sianok-hero.jpg" alt="Ngarai Sianok dengan tebing hijau dan lembah di Bukittinggi" class="absolute inset-0 h-full w-full object-cover opacity-70" fetchpriority="high" />
     <div class="absolute inset-0 bg-[linear-gradient(90deg,rgba(15,32,25,.9)_0%,rgba(15,32,25,.58)_48%,rgba(15,32,25,.15)_100%)]"></div>
     <div class="shell relative flex min-h-[78vh] items-end py-14 md:py-20">
       <div class="max-w-4xl">
         <p class="mb-5 text-xs font-extrabold tracking-[.23em] text-[#f1cdbb]">BUKITTINGGI · SUMATERA BARAT</p>
-        <h1 class="display text-[clamp(3.8rem,10vw,8.8rem)] font-bold leading-[.78] tracking-[-.055em]">Ngarai<br/><span class="text-[#f3e9d5]">Sianok</span></h1>
-        <p class="mt-8 max-w-2xl text-base leading-7 text-white/82 md:text-lg">Bukan sekadar titik foto. Ini adalah ambang untuk membaca lembah curam, sejarah kota, warisan geologi, dan jejak masa perang dalam satu lanskap Bukittinggi.</p>
+        <h1 class="display text-[clamp(3.4rem,9vw,7.5rem)] font-bold leading-[.95] tracking-[-.055em]">Taman Panorama<br/><span class="text-[#f3e9d5]">Ngarai Sianok</span></h1>
+        <p class="mt-8 max-w-2xl text-base leading-7 text-white/82 md:text-lg">Panduan independen titik panorama di Jalan Panorama, Bukittinggi: lokasi, perbedaan jam dari dua sumber, tarif yang perlu dikonfirmasi, serta konteks ngarai dan Lubang Japang.</p>
         <div class="mt-9 flex flex-wrap gap-3 text-sm">
           <a href="#rencana" class="focus-ring rounded-full bg-[#f3e9d5] px-5 py-3 font-bold text-[#21362e]">Rencanakan kunjungan ↓</a>
           <a href="#kisah" class="focus-ring rounded-full border border-white/35 px-5 py-3 font-bold backdrop-blur">Pahami lanskap</a>
@@ -54,23 +51,23 @@ const faqLd = {
       </div>
     </div>
     <div class="absolute bottom-0 right-0 hidden w-[38%] border-l border-white/20 bg-[#9b4b35]/90 p-6 lg:block">
-      <div class="grid grid-cols-3 gap-4 text-sm"><div><span class="block text-xs text-white/65">Jam tertera</span><strong class="mt-1 block">08.00–17.00</strong></div><div><span class="block text-xs text-white/65">Tiket dewasa</span><strong class="mt-1 block">Rp20.000</strong></div><div><span class="block text-xs text-white/65">Waktu ideal</span><strong class="mt-1 block">1,5–2,5 jam</strong></div></div>
+      <div class="grid grid-cols-3 gap-4 text-sm"><div><span class="block text-xs text-white/65">Peta · 19 Okt 2026</span><strong class="mt-1 block">09.30–17.30</strong></div><div><span class="block text-xs text-white/65">Penutupan peta</span><strong class="mt-1 block">Jumat tutup</strong></div><div><span class="block text-xs text-white/65">Saran waktu taman</span><strong class="mt-1 block">45–90 menit</strong></div></div>
     </div>
   </section>
 
   <section class="section-rule bg-[#f3e9d5]">
     <div class="shell grid gap-8 py-10 md:grid-cols-[.7fr_1.3fr] md:items-center">
       <p class="kicker">Ringkasan cepat</p>
-      <p class="display text-2xl leading-snug md:text-3xl">Taman Panorama adalah ruang pandang utama untuk melihat Ngarai Sianok, sekaligus pintu masuk pengalaman sejarah Lubang Japang di pusat wisata Bukittinggi.</p>
+      <p class="display text-2xl leading-snug md:text-3xl">Taman Panorama adalah titik pandang untuk melihat Ngarai Sianok. Taman, ngarai yang luas dan Lubang Japang adalah ruang kunjungan berbeda: jangan menyamakan jam, tiket atau aksesnya.</p>
     </div>
   </section>
 
   <section id="kisah" class="shell py-20 md:py-28">
     <div class="grid gap-12 lg:grid-cols-[.82fr_1.18fr] lg:items-start">
-      <div class="lg:sticky lg:top-28"><p class="kicker">Bentang yang perlu dibaca</p><h2 class="display mt-4 text-5xl font-bold leading-[.98] tracking-tight md:text-6xl">Lembah, patahan, dan kota di tepinya.</h2></div>
+      <div class="lg:sticky lg:top-28"><p class="kicker">Bentang yang perlu dibaca</p><h2 class="display mt-4 text-5xl font-bold leading-[.98] tracking-tight md:text-6xl">Lembah, warisan geologi, dan kota di tepinya.</h2></div>
       <div class="prose-copy space-y-6 text-[1.05rem]">
-        <p>Ngarai Sianok adalah lembah hijau bertembok tebing curam yang membelah lanskap di sisi Bukittinggi. Daya tarik visualnya hanya satu lapis dari cerita yang lebih besar: kawasan Ngarai Sianok–Maninjau diakui sebagai Geopark Nasional, sehingga kunjungan terbaik bukan hanya melihat pemandangan, tetapi juga memahami warisan geologi dan pentingnya pelestarian.</p>
-        <p>Literatur pariwisata daerah mengaitkan pembentukan kawasan dengan sejarah vulkanik Maninjau. Dalam konteks geologi Sumatra Barat, bentang ini juga berada di lingkungan tektonik aktif. Karena itu, pagar, jalur resmi, informasi kebencanaan, dan penutupan sementara perlu diperlakukan sebagai bagian dari pengalaman wisata yang bertanggung jawab—bukan sekadar pembatas.</p>
+        <p>Ngarai Sianok adalah lembah hijau bertembok tebing curam yang membelah lanskap di sisi Bukittinggi. Daya tarik visualnya hanya satu lapis dari cerita yang lebih besar: Pusat Survei Geologi dalam laporan 8 Oktober 2025 menyebut Ngarai Sianok–Maninjau sebagai salah satu Geopark Nasional yang dievaluasi, sehingga kunjungan terbaik bukan hanya melihat pemandangan, tetapi juga memahami warisan geologi dan pentingnya pelestarian.</p>
+        <p>Halaman Dinas Pariwisata mengaitkan bentang ini dengan aktivitas gunung api purba Maninjau. Itu adalah ringkasan pariwisata, bukan penjelasan lengkap proses geologi atau prakiraan bahaya. Untuk kunjungan, pagar, jalur resmi, informasi kebencanaan, dan penutupan sementara perlu diperlakukan sebagai bagian dari pengalaman wisata yang bertanggung jawab—bukan sekadar pembatas.</p>
         <aside class="border-l-2 border-[#9b4b35] pl-5 text-sm"><strong class="text-[#21362e]">Catatan tentang cerita lisan.</strong> Tradisi Minangkabau kaya akan kaba dan kisah tutur, tetapi sumber resmi yang kami telusuri tidak menetapkan satu legenda tertentu sebagai penjelasan asal-usul Ngarai Sianok. Karena itu, panduan ini tidak mengubah cerita yang belum terverifikasi menjadi fakta geologi atau sejarah. Bila menemukan kisah lokal di lapangan, nikmati sebagai warisan tutur dan perhatikan siapa penutur serta konteksnya.</aside>
         <div class="card grid gap-5 p-6 sm:grid-cols-2"><div><span class="text-3xl">◌</span><h3 class="mt-3 font-bold">Geopark nasional</h3><p class="mt-2 text-sm">Status geopark menekankan konservasi warisan geologi, edukasi, dan pengelolaan berkelanjutan.</p></div><div><span class="text-3xl">⌁</span><h3 class="mt-3 font-bold">Lanskap hidup</h3><p class="mt-2 text-sm">Lembah bukan panggung kosong: ada vegetasi, aliran air, lahan, satwa, dan aktivitas masyarakat di dalam sistem yang sama.</p></div></div>
       </div>
@@ -79,18 +76,18 @@ const faqLd = {
 
   <section class="overflow-hidden bg-[#315848] text-[#fbf7ee]">
     <div class="shell grid gap-0 lg:grid-cols-2">
-      <figure class="relative min-h-[440px]"><img src="/images/panorama-ngarai-sianok.jpg" alt="Taman Panorama Ngarai Sianok dengan papan nama dan latar lembah" class="absolute inset-0 h-full w-full object-cover" loading="lazy"/><figcaption class="absolute bottom-4 left-4 rounded-full bg-black/55 px-3 py-1.5 text-[11px] backdrop-blur">Foto: Rikomardon · CC BY-SA 4.0</figcaption></figure>
-      <div class="p-8 md:p-14 lg:p-16"><p class="text-xs font-extrabold tracking-[.2em] text-[#e7b9a5]">SEJARAH DI BAWAH PERMUKAAN</p><h2 class="display mt-4 text-4xl font-bold md:text-5xl">Lubang Japang dan lapisan ingatan perang</h2><div class="mt-7 space-y-5 text-sm leading-7 text-white/74"><p>Di dalam kompleks Taman Panorama terdapat akses menuju Lubang Japang, jaringan pertahanan bawah tanah dari masa pendudukan Jepang pada Perang Dunia II. Kehadirannya membuat kawasan ini sekaligus menjadi ruang sejarah, bukan hanya taman panorama.</p><p>Interpretasi sejarah perang sebaiknya dilakukan dengan bahasa yang menghormati pengalaman manusia dan membedakan antara data terdokumentasi, cerita lisan, dan narasi yang belum terverifikasi. Karena itu panduan ini tidak mengulang angka, fungsi ruang, atau kisah dramatis yang tidak memiliki dukungan sumber yang memadai.</p></div><div class="mt-8 border-l-2 border-[#e7b9a5] pl-5 text-sm leading-6 text-white/85">Tip: sisihkan waktu untuk membaca papan interpretasi di lokasi. Pencahayaan dan permukaan di area bawah tanah dapat berbeda dari taman terbuka.</div></div>
+      <figure class="relative min-h-[440px]"><img src="/images/panorama-ngarai-sianok.jpg" alt="Taman Panorama Ngarai Sianok dengan papan nama dan latar lembah" class="absolute inset-0 h-full w-full object-cover" loading="lazy"/><figcaption class="absolute bottom-4 left-4 rounded-full bg-black/55 px-3 py-1.5 text-[11px] backdrop-blur">Foto referensi: Rikomardon · CC BY-SA 4.0</figcaption></figure>
+      <div class="p-8 md:p-14 lg:p-16"><p class="text-xs font-extrabold tracking-[.2em] text-[#e7b9a5]">SEJARAH DI BAWAH PERMUKAAN</p><h2 class="display mt-4 text-4xl font-bold md:text-5xl">Lubang Japang dan lapisan ingatan perang</h2><div class="mt-7 space-y-5 text-sm leading-7 text-white/74"><p>Direktori Dinas Pariwisata mencantumkan Taman Panorama dan Lubang Japang dalam satu entri. Materi pariwisata nasional mengenalkan terowongan ini sebagai peninggalan masa Perang Dunia II. Lokasi pintu, pembukaan, tiket serta kebutuhan pendamping harus dikonfirmasi terpisah; berada di taman tidak menjamin bisa langsung masuk.</p><p>Interpretasi sejarah perang sebaiknya dilakukan dengan bahasa yang menghormati pengalaman manusia dan membedakan antara data terdokumentasi, cerita lisan, dan narasi yang belum terverifikasi. Karena itu panduan ini tidak mengulang angka, fungsi ruang, atau kisah dramatis yang tidak memiliki dukungan sumber yang memadai.</p></div><div class="mt-8 border-l-2 border-[#e7b9a5] pl-5 text-sm leading-6 text-white/85">Tip: tanyakan apakah kunjungan terowongan tersedia sebelum menyusun rute. Bila diizinkan masuk, ikuti jalur, interpretasi dan arahan petugas; jangan menganggap aksesnya sama dengan taman terbuka.</div></div>
     </div>
   </section>
 
   <section id="rencana" class="shell py-20 md:py-28">
     <div class="flex flex-col justify-between gap-5 md:flex-row md:items-end"><div><p class="kicker">Rencana kunjungan</p><h2 class="display mt-4 max-w-3xl text-5xl font-bold tracking-tight md:text-6xl">Datang dengan waktu yang cukup.</h2></div><p class="max-w-md text-sm leading-6 text-[#657168]">Jam, tarif, dan layanan operasional dapat berubah. Anggap angka di bawah sebagai informasi rujukan dan konfirmasi melalui kanal resmi sebelum berangkat.</p></div>
     <div class="mt-12 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-      <article class="card p-6"><p class="kicker">Jam buka</p><p class="display mt-5 text-4xl font-bold">08.00<br/>—17.00</p><p class="mt-4 text-sm leading-6 text-[#667168]">Senin–Minggu menurut Dinas Pariwisata Kota Bukittinggi.</p></article>
-      <article class="card p-6"><p class="kicker">Tiket tertera</p><p class="mt-5 font-bold">Dewasa <span class="float-right">Rp20.000</span></p><p class="mt-2 font-bold">Anak <span class="float-right">Rp15.000</span></p><p class="mt-2 font-bold">Mancanegara <span class="float-right">Rp25.000</span></p><p class="mt-4 text-xs leading-5 text-[#667168]">Tarif dapat berubah; cek kembali sebelum kunjungan.</p></article>
+      <article class="card p-6"><p class="kicker">Jam buka</p><p class="display mt-5 text-4xl font-bold">09.30<br/>—17.30</p><p class="mt-4 text-sm leading-6 text-[#667168]">Peta 19 Oktober 2026: Senin–Kamis, Sabtu–Minggu; Jumat tutup. Dinas Pariwisata mencantumkan setiap hari 08.00–17.00. Konfirmasikan perbedaan sebelum berangkat.</p></article>
+      <article class="card p-6"><p class="kicker">Tarif di halaman Dinas Pariwisata</p><p class="mt-5 font-bold">Dewasa <span class="float-right">Rp20.000</span></p><p class="mt-2 font-bold">Anak <span class="float-right">Rp15.000</span></p><p class="mt-2 font-bold">Mancanegara <span class="float-right">Rp25.000</span></p><p class="mt-4 text-xs leading-5 text-[#667168]">Diperiksa 19 Oktober 2026. Entri bertajuk Taman Panorama & Lubang Japang; cakupan, batas usia dan tambahan belum dijelaskan. Konfirmasi loket, jangan anggap tarif semua area sama.</p></article>
       <article class="card p-6"><p class="kicker">Waktu terbaik</p><p class="display mt-5 text-3xl font-bold">Pagi hari</p><p class="mt-4 text-sm leading-6 text-[#667168]">Sekitar awal jam operasional biasanya lebih nyaman untuk suhu, cahaya lembut, dan memberi ruang bila kabut datang.</p></article>
-      <article class="card p-6"><p class="kicker">Durasi</p><p class="display mt-5 text-4xl font-bold">1,5–2,5<br/>jam</p><p class="mt-4 text-sm leading-6 text-[#667168]">Rekomendasi editorial untuk taman, titik pandang, dan konteks sejarah; bukan aturan resmi.</p></article>
+      <article class="card p-6"><p class="kicker">Durasi</p><p class="display mt-5 text-4xl font-bold">45–90<br/>menit</p><p class="mt-4 text-sm leading-6 text-[#667168]">Saran perencanaan taman dan titik pandang; terowongan atau turun ke lembah memerlukan rencana terpisah, bukan otomatis termasuk.</p></article>
     </div>
   </section>
 
@@ -98,13 +95,13 @@ const faqLd = {
     <div class="shell"><p class="kicker">Kebutuhan praktis</p><h2 class="display mt-4 text-4xl font-bold md:text-5xl">Apa yang perlu diketahui sebelum tiba</h2>
       <div class="mt-10 grid gap-px overflow-hidden rounded-3xl border border-[#21362e]/15 bg-[#21362e]/15 md:grid-cols-2 lg:grid-cols-4">
         {[
-          ['WC & mushala','Petunjuk fasilitas di kawasan menunjukkan toilet dan mushala. Cek kondisi dan akses saat tiba.'],
-          ['Parkir','Tersedia area parkir di kawasan/sekitar objek. Kapasitas dan tarif dapat berubah, terutama saat akhir pekan dan libur.'],
+          ['WC & mushala','Foto petunjuk Mei 2026 menyebut fasilitas ini. Tanyakan mana yang aktif, jam, lokasi dan akses saat tiba.'],
+          ['Parkir','Tanyakan area parkir yang diizinkan, kapasitas, tarif dan jarak ke pintu yang digunakan; ketersediaan belum diverifikasi.'],
           ['Makan & minum','Pilih warung atau tempat makan berdasarkan kebersihan, informasi harga, kebutuhan diet, dan jarak—tanpa preferensi merek tertentu.'],
-          ['Akomodasi','Pilihan penginapan tersebar di pusat Bukittinggi. Bandingkan akses berjalan kaki, transportasi, keselamatan, dan kebijakan pembatalan.'],
-          ['Belanja harian','Minimarket, pasar, dan toko kebutuhan harian tersedia di area perkotaan. Bawa air minum secukupnya dan kurangi kemasan sekali pakai.'],
-          ['BBM & pengisian daya','SPBU tersedia di kawasan perkotaan. Untuk kendaraan listrik, verifikasi titik pengisian dan status operasional melalui aplikasi/jaringan resmi sebelum perjalanan.'],
-          ['Aksesibilitas','Taman memiliki jalur dan area duduk, namun kontur, tangga, serta bagian Lubang Japang dapat membatasi akses. Tanyakan kondisi terbaru kepada petugas.'],
+          ['Akomodasi','Cari kandidat penginapan melalui peta terkini; lokasi dan ketersediaan tiap usaha belum diverifikasi. Bandingkan akses berjalan kaki, transportasi, keselamatan, dan kebijakan pembatalan.'],
+          ['Belanja harian','Cari minimarket, pasar atau toko sesuai kebutuhan pada peta terkini; jangan mengandalkan lokasi yang belum dikonfirmasi. Bawa air minum secukupnya dan kurangi kemasan sekali pakai.'],
+          ['BBM & pengisian daya','Cari dan konfirmasikan kebutuhan bahan bakar sebelum berangkat. Untuk kendaraan listrik, verifikasi titik pengisian dan status operasional melalui aplikasi/jaringan resmi sebelum perjalanan.'],
+          ['Aksesibilitas','Tanyakan jalur bebas tangga, permukaan, tempat istirahat dan fasilitas yang aktif. Jangan menganggap akses taman dan terowongan setara untuk kebutuhan mobilitas.'],
           ['Kera liar','Simpan makanan, botol, dan benda kecil; jangan memberi makan, memegang, atau memancing interaksi dengan satwa.'],
         ].map(([t,d]) => <article class="bg-[#fbf7ee] p-6"><h3 class="font-extrabold">{t}</h3><p class="mt-3 text-sm leading-6 text-[#667168]">{d}</p></article>)}
       </div>
@@ -115,11 +112,11 @@ const faqLd = {
     <div class="grid gap-12 lg:grid-cols-[.7fr_1.3fr]"><div><p class="kicker">Akses & transportasi</p><h2 class="display mt-4 text-5xl font-bold">Menuju Jalan Panorama.</h2><p class="mt-5 text-sm leading-7 text-[#667168]">Alamat: Taman Jl. Panorama, Kayu Kubu, Kec. Guguk Panjang, Kota Bukittinggi, Sumatera Barat 26136.</p></div>
       <div class="space-y-3">
         {[
-          ['Dari bandara','Bandara Internasional Minangkabau adalah gerbang udara utama. Dari bandara, perjalanan darat ke Bukittinggi dapat dilanjutkan dengan bus/minibus antarkota, layanan antar-jemput, taksi, atau kendaraan sewaan. Sumber pariwisata nasional mencantumkan koridor Padang–Bukittinggi sekitar 90 km; durasi sangat bergantung pada lalu lintas dan kondisi jalan.'],
-          ['Bus & angkutan umum','Gunakan layanan bus/minibus menuju Bukittinggi, kemudian lanjutkan dengan angkutan kota, taksi, atau transportasi daring menuju Jalan Panorama. Jadwal dan titik naik/turun berubah, jadi konfirmasi kepada operator resmi pada hari perjalanan.'],
-          ['Taksi & transportasi daring','Taksi dan aplikasi transportasi daring praktis untuk perjalanan dari pusat kota. Pastikan titik tujuan tertulis “Taman Panorama / Ngarai Sianok” agar tidak tertukar dengan titik pandang lain di bentang ngarai.'],
+          ['Dari bandara','Indonesia Travel menyebut Minangkabau dan koridor Padang–Bukittinggi sebagai orientasi perjalanan. Panduan ini belum memverifikasi layanan, jadwal atau titik jemput yang aktif; periksa operator berizin dan peta hari perjalanan. Jangan menyamakan jarak antarkota dengan jarak bandara ke pintu taman.'],
+          ['Bus & angkutan umum','Periksa operator yang benar-benar melayani perjalanan ke Bukittinggi pada hari Anda berangkat. Konfirmasikan rute, jadwal, titik turun dan sambungan menuju Jalan Panorama; panduan ini tidak memverifikasi layanan bus atau angkot tertentu.'],
+          ['Taksi & transportasi daring','Periksa apakah layanan menerima penjemputan dan pengantaran pada hari perjalanan. Bila memakai layanan yang tersedia, pastikan titik tujuan tertulis “Taman Panorama / Ngarai Sianok” agar tidak tertukar dengan titik pandang lain di bentang ngarai.'],
           ['Kendaraan pribadi','Gunakan navigasi menuju Jalan Panorama. Pada waktu ramai, pertimbangkan datang lebih awal karena ruas pusat kota dan area wisata dapat padat. Ikuti rambu parkir resmi dan jangan berhenti di bahu jalan yang mengganggu arus.'],
-          ['Dari pusat Bukittinggi','Ngarai Sianok berada dekat pusat kota; materi Indonesia Travel menyebut sekitar 1 km ke arah barat daya. Untuk jarak pendek, opsi dapat berupa berjalan kaki bila kondisi memungkinkan, taksi/transportasi daring, atau bendi/sado jika tersedia dan beroperasi.'],
+          ['Dari pusat Bukittinggi','Rencanakan dari titik berangkat Anda ke pin Taman Panorama, bukan ke nama ngarai secara umum. Periksa jalur pejalan kaki, penyeberangan, pintu masuk dan pilihan transportasi yang aktif; jarak atau waktu berjalan tertentu belum diverifikasi.'],
         ].map(([t,d],i) => <details class="card group p-0" open={i===0}><summary class="focus-ring flex cursor-pointer list-none items-center justify-between rounded-[1.35rem] p-6 font-bold"><span>{String(i+1).padStart(2,'0')} · {t}</span><span class="text-xl text-[#9b4b35] group-open:rotate-45">＋</span></summary><p class="px-6 pb-6 text-sm leading-7 text-[#667168]">{d}</p></details>)}
       </div>
     </div>
@@ -127,18 +124,18 @@ const faqLd = {
 
   <section class="bg-[#f3e9d5] py-20">
     <div class="shell grid gap-12 lg:grid-cols-2">
-      <div><p class="kicker">Kuliner sekitar</p><h2 class="display mt-4 text-4xl font-bold">Kenali rasa Minangkabau, bukan daftar sponsor.</h2><p class="mt-5 max-w-xl text-sm leading-7 text-[#667168]">Di pusat Bukittinggi dan kawasan pasar, cari jenis hidangan berdasarkan minat dan kebutuhan Anda. Situs ini sengaja tidak mengurutkan atau mempromosikan rumah makan tertentu.</p><div class="mt-7 flex flex-wrap gap-2">{['Nasi Kapau','Itiak lado mudo','Karupuak sanjai','Lamang tapai','Pinyaram','Teh talua'].map(x => <span class="rounded-full border border-[#21362e]/18 bg-white/45 px-4 py-2 text-sm font-semibold">{x}</span>)}</div></div>
-      <div class="card !bg-[#21362e] p-7 text-[#f3e9d5]"><p class="text-xs font-extrabold tracking-[.18em] text-[#e7b9a5]">CARA MEMILIH SECARA NETRAL</p><ul class="mt-5 space-y-4 text-sm leading-6 !text-[#fbf7ee]"><li><span class="font-bold text-[#e7b9a5]">01</span> — Periksa harga sebelum memesan dan tanyakan bahan bila memiliki alergi.</li><li><span class="font-bold text-[#e7b9a5]">02</span> — Pilih tempat dengan praktik kebersihan yang terlihat baik dan penyimpanan makanan yang layak.</li><li><span class="font-bold text-[#e7b9a5]">03</span> — Untuk keramaian, pasar dan pusat kota biasanya menawarkan lebih banyak kategori pilihan daripada satu koridor saja.</li><li><span class="font-bold text-[#e7b9a5]">04</span> — Bawa kembali sampah yang tidak dapat dibuang dengan benar.</li></ul></div>
+      <div><p class="kicker">Kuliner sekitar</p><h2 class="display mt-4 text-4xl font-bold">Kenali rasa Minangkabau, bukan daftar sponsor.</h2><p class="mt-5 max-w-xl text-sm leading-7 text-[#667168]">Nama hidangan berikut adalah ide pencarian menu, bukan menu terkini atau daftar pedagang yang telah diverifikasi. Cari sesuai kebutuhan, lalu tanyakan bahan, porsi, harga dan ketersediaan kepada penjual.</p><div class="mt-7 flex flex-wrap gap-2">{['Nasi Kapau','Itiak lado mudo','Karupuak sanjai','Lamang tapai','Pinyaram','Teh talua'].map(x => <span class="rounded-full border border-[#21362e]/18 bg-white/45 px-4 py-2 text-sm font-semibold">{x}</span>)}</div></div>
+      <div class="card !bg-[#21362e] p-7 text-[#f3e9d5]"><p class="text-xs font-extrabold tracking-[.18em] text-[#e7b9a5]">CARA MEMILIH SECARA NETRAL</p><ul class="mt-5 space-y-4 text-sm leading-6 !text-[#fbf7ee]"><li><span class="font-bold text-[#e7b9a5]">01</span> — Periksa harga sebelum memesan dan tanyakan bahan bila memiliki alergi.</li><li><span class="font-bold text-[#e7b9a5]">02</span> — Pilih tempat dengan praktik kebersihan yang terlihat baik dan penyimpanan makanan yang layak.</li><li><span class="font-bold text-[#e7b9a5]">03</span> — Periksa jam, akses dan pilihan sesuai kebutuhan Anda; jangan mengandalkan jumlah atau jenis usaha yang belum dikonfirmasi.</li><li><span class="font-bold text-[#e7b9a5]">04</span> — Bawa kembali sampah yang tidak dapat dibuang dengan benar.</li></ul></div>
     </div>
   </section>
 
   <section class="shell py-20 md:py-28">
-    <div class="grid gap-10 lg:grid-cols-[.9fr_1.1fr] lg:items-center"><div><p class="kicker">Destinasi sekitar</p><h2 class="display mt-4 text-5xl font-bold">Satu hari, beberapa lapis Bukittinggi.</h2><p class="mt-5 text-sm leading-7 text-[#667168]">Gabungkan alam, ruang kota, dan sejarah—tanpa menjadikan itinerary sebagai daftar transaksi.</p></div><figure class="relative overflow-hidden rounded-[2rem]"><img src="/images/jam-gadang.jpg" alt="Jam Gadang di pusat Kota Bukittinggi" class="h-[430px] w-full object-cover" loading="lazy"/><figcaption class="absolute bottom-4 left-4 rounded-full bg-black/55 px-3 py-1.5 text-[11px] text-white backdrop-blur">Foto: Crisco 1492 · CC BY-SA 4.0</figcaption></figure></div>
+    <div class="grid gap-10 lg:grid-cols-[.9fr_1.1fr] lg:items-center"><div><p class="kicker">Destinasi sekitar</p><h2 class="display mt-4 text-5xl font-bold">Satu hari, beberapa lapis Bukittinggi.</h2><p class="mt-5 text-sm leading-7 text-[#667168]">Daftar ini adalah kandidat rencana, bukan jaminan lokasi dekat atau akses terkini. Selain konteks taman/Lubang Japang, alamat dan kondisi masuk masing-masing tujuan belum diverifikasi ulang; cek peta dan pengelola.</p></div><figure class="relative overflow-hidden rounded-[2rem]"><img src="/images/jam-gadang.jpg" alt="Jam Gadang di pusat Kota Bukittinggi" class="h-[430px] w-full object-cover" loading="lazy"/><figcaption class="absolute bottom-4 left-4 rounded-full bg-black/55 px-3 py-1.5 text-[11px] text-white backdrop-blur">Foto referensi: Crisco 1492 · CC BY-SA 4.0</figcaption></figure></div>
     <div class="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-4">{[
-      ['Jam Gadang','Landmark kota yang dibangun pada 1926; cocok untuk membaca identitas pusat Bukittinggi.'],
-      ['Lubang Japang','Bagian dari kompleks Taman Panorama untuk memahami jejak Perang Dunia II di kota.'],
-      ['Fort de Kock & Limpapeh','Koridor sejarah dan jembatan kota yang membantu melihat perkembangan ruang wisata Bukittinggi.'],
-      ['Rumah Kelahiran Bung Hatta','Ruang sejarah untuk mengenal masa kecil Mohammad Hatta dan perannya dalam sejarah Indonesia.'],
+      ['Jam Gadang','Kandidat landmark kota untuk ditelusuri terpisah; konfirmasikan lokasi, rute dan kondisi ruang publik.'],
+      ['Lubang Japang','Destinasi sejarah dengan akses, pembukaan dan ketentuan masuk yang perlu diperiksa terpisah.'],
+      ['Fort de Kock & Limpapeh','Kandidat destinasi terpisah; lokasi, jarak, tiket dan akses belum diverifikasi oleh panduan ini.'],
+      ['Rumah Kelahiran Bung Hatta','Kandidat museum untuk ditelusuri; periksa alamat, pembukaan, tiket dan izin masuk sebelum merencanakan kunjungan.'],
     ].map(([t,d]) => <article class="card p-6"><h3 class="display text-xl font-bold">{t}</h3><p class="mt-3 text-sm leading-6 text-[#667168]">{d}</p></article>)}</div>
   </section>
 
@@ -152,7 +149,7 @@ const faqLd = {
   </section>
 
   <section class="shell py-20">
-    <div class="grid gap-10 lg:grid-cols-[.75fr_1.25fr] lg:items-start"><div><p class="kicker">Orientasi di lokasi</p><h2 class="display mt-4 text-4xl font-bold">Fasilitas ditandai di dalam kawasan.</h2><p class="mt-5 text-sm leading-7 text-[#667168]">Papan petunjuk terbaru yang terdokumentasi menunjukkan arah ke menara pandang, Lubang Japang, mushala, toilet, area suvenir dan lukisan, serta tempat bermain anak.</p></div><figure class="relative mx-auto overflow-hidden rounded-[2rem] border border-[#21362e]/15 bg-white p-2"><img src="/images/petunjuk-panorama.jpg" alt="Papan petunjuk fasilitas di Ngarai Sianok menuju menara pandang, Lubang Japang, mushala, toilet, suvenir, dan tempat bermain anak" class="max-h-[620px] rounded-[1.55rem] object-contain" loading="lazy"/><figcaption class="px-3 py-3 text-xs text-[#667168]">Dokumentasi kawasan, Mei 2026 · Foto: Syurida · CC BY-SA 4.0</figcaption></figure></div>
+    <div class="grid gap-10 lg:grid-cols-[.75fr_1.25fr] lg:items-start"><div><p class="kicker">Orientasi di lokasi</p><h2 class="display mt-4 text-4xl font-bold">Baca petunjuk, lalu konfirmasikan kondisi.</h2><p class="mt-5 text-sm leading-7 text-[#667168]">Foto petunjuk bertanggal Mei 2026 menampilkan beberapa arah fasilitas. Foto itu catatan pada satu waktu, bukan bukti semua fasilitas aktif atau dapat diakses saat kunjungan Anda. Tanyakan kondisi terbaru kepada petugas.</p></div><figure class="relative mx-auto overflow-hidden rounded-[2rem] border border-[#21362e]/15 bg-white p-2"><img src="/images/petunjuk-panorama.jpg" alt="Papan petunjuk fasilitas di Ngarai Sianok menuju menara pandang, Lubang Japang, mushala, toilet, suvenir, dan tempat bermain anak" class="max-h-[620px] rounded-[1.55rem] object-contain" loading="lazy"/><figcaption class="px-3 py-3 text-xs text-[#667168]">Dokumentasi kawasan, Mei 2026 · Foto: Syurida · CC BY-SA 4.0</figcaption></figure></div>
   </section>
 
   <section class="section-rule bg-white/45 py-20">
@@ -161,7 +158,12 @@ const faqLd = {
 
   <section id="faq" class="shell py-20 md:py-28"><div class="grid gap-12 lg:grid-cols-[.62fr_1.38fr]"><div><p class="kicker">FAQ</p><h2 class="display mt-4 text-5xl font-bold">Pertanyaan sebelum berangkat.</h2></div><div class="divide-y divide-[#21362e]/15 border-y border-[#21362e]/15">{faq.map(([q,a],i) => <details class="group" open={i===0}><summary class="focus-ring flex cursor-pointer list-none items-center justify-between gap-5 rounded-lg py-5 font-bold"><span>{q}</span><span class="text-xl text-[#9b4b35] group-open:rotate-45">＋</span></summary><p class="max-w-3xl pb-6 pr-10 text-sm leading-7 text-[#667168]">{a}</p></details>)}</div></div></section>
 
-  <section class="bg-[#21362e] py-20 text-[#f3e9d5]"><div class="shell grid gap-10 lg:grid-cols-[.7fr_1.3fr]"><div><p class="text-xs font-extrabold tracking-[.2em] text-[#e7b9a5]">SUMBER & METODE</p><h2 class="display mt-4 text-4xl font-bold">Informasi yang bisa ditelusuri.</h2></div><div class="grid gap-4 md:grid-cols-2"><a class="rounded-2xl border border-white/15 p-5 hover:bg-white/5" href="https://visit.bukittinggikota.go.id/wisata?type_wisata=Object+Wisata" target="_blank" rel="noreferrer"><strong>Dinas Pariwisata Kota Bukittinggi ↗</strong><p class="mt-2 text-sm leading-6 text-white/65">Jam, tiket, objek wisata, dan deskripsi Taman Panorama.</p></a><a class="rounded-2xl border border-white/15 p-5 hover:bg-white/5" href="https://www.indonesia.travel/id/id/destination/sumatra/west-sumatra/ngarai-sianok" target="_blank" rel="noreferrer"><strong>Indonesia Travel ↗</strong><p class="mt-2 text-sm leading-6 text-white/65">Gambaran Ngarai Sianok dan pengalaman kunjungan.</p></a><a class="rounded-2xl border border-white/15 p-5 hover:bg-white/5" href="https://psg.geologi.esdm.go.id/index.php/archives/pembahasan-penetapan-dan-evaluasi-geopark-nasional-tahun-2025/" target="_blank" rel="noreferrer"><strong>Pusat Survei Geologi ↗</strong><p class="mt-2 text-sm leading-6 text-white/65">Status dan evaluasi Geopark Nasional Ngarai Sianok–Maninjau.</p></a><a class="rounded-2xl border border-white/15 p-5 hover:bg-white/5" href="https://www.bukittinggikota.go.id/profil" target="_blank" rel="noreferrer"><strong>Pemerintah Kota Bukittinggi ↗</strong><p class="mt-2 text-sm leading-6 text-white/65">Profil dan sejarah kota sebagai konteks destinasi.</p></a></div><p class="lg:col-start-2 text-xs leading-6 text-white/50">Informasi operasional merupakan bagian yang paling mudah berubah. Untuk keputusan perjalanan penting, utamakan pengumuman pemerintah/pengelola dan kondisi lapangan terbaru.</p></div></section>
+  <section class="bg-[#21362e] py-20 text-[#f3e9d5]"><div class="shell grid gap-10 lg:grid-cols-[.7fr_1.3fr]"><div><p class="text-xs font-extrabold tracking-[.2em] text-[#e7b9a5]">SUMBER & METODE</p><h2 class="display mt-4 text-4xl font-bold">Informasi yang bisa ditelusuri.</h2></div><div class="grid gap-4 md:grid-cols-2"><a class="rounded-2xl border border-white/15 p-5 hover:bg-white/5" href="https://visit.bukittinggikota.go.id/wisata/11/TAMAN%20PANORAMA%20%26%20LUBANG%20JAPANG" target="_blank" rel="noreferrer"><strong>Dinas Pariwisata Kota Bukittinggi ↗</strong><p class="mt-2 text-sm leading-6 text-white/65">Halaman diperiksa 19 Oktober 2026: jam dan tarif entri Taman Panorama & Lubang Japang; cakupan perlu dikonfirmasi.</p></a><a class="rounded-2xl border border-white/15 p-5 hover:bg-white/5" href="https://www.indonesia.travel/my/en/destination/sumatra/west-sumatra/bukittinggi---ngarai-sianok" target="_blank" rel="noreferrer"><strong>Indonesia Travel ↗</strong><p class="mt-2 text-sm leading-6 text-white/65">Gambaran Ngarai Sianok dan pengalaman kunjungan.</p></a><a class="rounded-2xl border border-white/15 p-5 hover:bg-white/5" href="https://psg.geologi.esdm.go.id/index.php/archives/pembahasan-penetapan-dan-evaluasi-geopark-nasional-tahun-2025/" target="_blank" rel="noreferrer"><strong>Pusat Survei Geologi ↗</strong><p class="mt-2 text-sm leading-6 text-white/65">Status dan evaluasi Geopark Nasional Ngarai Sianok–Maninjau.</p></a><a class="rounded-2xl border border-white/15 p-5 hover:bg-white/5" href="https://maps.app.goo.gl/Pb3rVNTMea9Z7Uby5" target="_blank" rel="noreferrer"><strong>Google Maps · 19 Oktober 2026 ↗</strong><p class="mt-2 text-sm leading-6 text-white/65">Sianok Valley Panoramic: 4,6/5 dari 4.974 ulasan; enam hari 09.30–17.30, Jumat tutup. Berbeda dari jadwal Dinas Pariwisata.</p></a></div><p class="lg:col-start-2 text-xs leading-6 text-white/50">Informasi operasional merupakan bagian yang paling mudah berubah. Untuk keputusan perjalanan penting, utamakan pengumuman pemerintah/pengelola dan kondisi lapangan terbaru.</p></div></section>
 
-  <section class="shell py-16"><p class="kicker">Kredit foto</p><div class="mt-5 grid gap-3 text-xs leading-6 text-[#667168] md:grid-cols-2"><p>Ngarai Sianok Bukittinggi — Adhmi, CC BY-SA 4.0, Wikimedia Commons. Dipakai sebagai foto utama.</p><p>Panorama ngarai sianok — Rikomardon, CC BY-SA 4.0, Wikimedia Commons.</p><p>Jam Gadang, Bukittinggi, 2016 — Crisco 1492, CC BY-SA 4.0, Wikimedia Commons.</p><p>Papan petunjuk Ngarai Sianok, Mei 2026 — Syurida, CC BY-SA 4.0, Wikimedia Commons.</p></div></section>
+  <section class="shell py-16"><p class="kicker">Kredit foto</p><p class="mt-4 text-sm leading-6">Foto referensi, bukan bukti kondisi kunjungan saat ini. Gambar ditampilkan dalam ukuran turunan sumber; bingkai halaman dapat memangkas tampilan.</p><div class="mt-5 grid gap-3 text-xs leading-6 text-[#667168] md:grid-cols-2">
+<p><a href="https://commons.wikimedia.org/wiki/File:Ngarai_Sianok_Bukittinggi.jpg">Ngarai Sianok Bukittinggi — Adhmi</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>. Foto utama.</p>
+<p><a href="https://commons.wikimedia.org/wiki/File:Panorama_ngarai_sianok.jpg">Panorama ngarai sianok — Rikomardon</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.</p>
+<p><a href="https://commons.wikimedia.org/wiki/File:Jam_Gadang,_Bukittinggi,_2016-02-12_01.jpg">Jam Gadang — Crisco 1492</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.</p>
+<p><a href="https://commons.wikimedia.org/wiki/File:Ngarai_Sianok_Bukittinggi,_Mei_2026_(Plang_petunjuk_arah).jpg">Papan petunjuk, Mei 2026 — Syurida</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.</p>
+</div></section>
 </BaseLayout>

@@ -30,3 +30,5 @@
   .policy p,.policy li { color:#536057; line-height:1.75; }
   .policy ul { padding-left:1.2rem; list-style:disc; }
 }
+
+.site-header-inner{min-height:72px;padding-block:10px;flex-wrap:wrap}.site-nav a,header a,footer a,button{min-height:44px;display:inline-flex;align-items:center}h1,h2,h3,p,a{overflow-wrap:anywhere}.grid>*{min-width:0}input[type=checkbox]{min-width:24px;min-height:24px}label{min-height:44px}@media(max-width:767px){.site-nav{order:3;width:100%;gap:4px 16px}.site-nav a{font-size:12px}.site-header-inner{gap:6px}.site-nav a{min-height:44px}figure figcaption{max-width:calc(100% - 2rem);border-radius:12px;overflow-wrap:anywhere}.policy h1{overflow-wrap:anywhere}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
