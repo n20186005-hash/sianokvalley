@@ -29,7 +29,7 @@
   const saved=read();apply(saved?.analytics===true);
   const checkbox=document.getElementById('analytics'),status=document.getElementById('cookie-status');
   if(checkbox)checkbox.checked=saved?.analytics===true;
-  function choose(value){const stored=save(value);if(checkbox)checkbox.checked=value;if(status)status.textContent=stored?(value?'Pilihan analitik disimpan.':'Analitik ditolak dan pilihan disimpan.'):(value?'Analitik diizinkan hanya pada halaman ini; pilihan tidak dapat disimpan.':'Analitik ditolak sekarang; penyimpanan perangkat tidak tersedia.');}
+  function choose(value){const stored=save(value);if(checkbox)checkbox.checked=value;if(status)status.textContent=stored?(value?'Pilihan Google Analytics disimpan.':'Google Analytics ditolak dan pilihan disimpan.'):(value?'Google Analytics diizinkan hanya pada halaman ini; pilihan tidak dapat disimpan.':'Google Analytics ditolak sekarang; penyimpanan perangkat tidak tersedia.');}
   document.getElementById('save-cookie')?.addEventListener('click',()=>choose(checkbox?.checked===true));
   document.getElementById('reject-cookie')?.addEventListener('click',()=>choose(false));
 })();
