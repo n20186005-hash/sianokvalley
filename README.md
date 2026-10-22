@@ -25,7 +25,7 @@ pnpm deploy
 `pnpm deploy` menjalankan build lalu `wrangler deploy`. Tidak ada basis data, autentikasi, atau CMS.
 
 ## Analitik dan cookie
-Google Analytics hanya dimuat setelah izin analitik. Penolakan menonaktifkannya segera. Pilihan yang gagal disimpan tidak diklaim tersimpan; penanda penolakan pada sesi/jendela dan pemeriksaan kemampuan menulis mencegah izin lama pulih saat penyimpanan gagal. Tidak ada akun, formulir kontak atau pemesanan. Google Maps tertanam memproses permintaan terpisah dari pilihan analitik.
+Google Analytics hanya dimuat setelah izin analitik. Penolakan menonaktifkannya segera. Pilihan yang gagal disimpan tidak diklaim tersimpan. Pembacaan keadaan penolakan yang gagal tetap menonaktifkan analitik; izin baru memerlukan penghapusan penanda yang terverifikasi sebelum disimpan. Penolakan sesi/jendela melindungi perpindahan dalam situs dan pemuatan ulang selama penandanya tersedia; bila semua cara gagal, hanya halaman saat ini yang nonaktif. Peristiwa penyimpanan bersama menyelaraskan runtime dan kontrol pada tab lain bila tersedia. Tidak ada akun, formulir kontak atau pemesanan. Google Maps tertanam memproses permintaan terpisah dari pilihan analitik.
 
 ## Sumber foto
 Empat sumber Commons dan lisensi CC BY-SA 4.0 ditautkan pada halaman utama. Berkas cocok byte-per-byte dengan thumbnail sumber yang diperiksa; ukuran visual dan informasi fasilitas tetap bukan jaminan kondisi sekarang.
