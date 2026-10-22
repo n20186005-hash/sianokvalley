@@ -4,8 +4,8 @@
   const messages={
     on:'Pilihan Google Analytics disimpan dan aktif.',
     off:'Google Analytics ditolak dan pilihan disimpan.',
-    tab:'Google Analytics nonaktif pada tab ini selama penanda sesi atau jendela masih tersedia, termasuk perpindahan dalam situs dan pemuatan ulang. Pilihan permanen tidak dapat disimpan; izin lama mungkin masih ada di tab lain. Hapus data situs melalui pengaturan browser untuk menghapus izin lama.',
-    page:'Google Analytics nonaktif pada halaman ini. Pilihan tidak dapat disimpan dan penolakan tidak dapat dipastikan untuk halaman berikutnya; hapus data situs melalui pengaturan browser sebelum berpindah atau memuat ulang.'
+    tab:'Google Analytics nonaktif pada tab ini selama penanda sesi atau jendela masih tersedia, termasuk perpindahan dalam situs dan pemuatan ulang. Pilihan permanen tidak dapat disimpan; izin yang tersimpan mungkin masih ada di tab lain. Hapus data situs melalui pengaturan browser untuk menghapus izin tersimpan.',
+    page:'Google Analytics nonaktif pada halaman ini. Pilihan tidak dapat disimpan dan penolakan tidak dapat dipastikan untuk halaman berikutnya; izin yang tersimpan mungkin masih ada di tab lain. Hapus data situs melalui pengaturan browser sebelum berpindah atau memuat ulang.'
   };
   function denialState(){
     try{return {denied:immediateDeny||sessionStorage.getItem(DENY)==='1'||window.name.includes(MARK),failed:false};}
@@ -57,6 +57,16 @@
     if(status)status.textContent=message||(current.failed?messages.page:current.denied&&!current.storedFalse?messages.tab:current.decided?(current.analytics?messages.on:messages.off):'');
     return current;
   }
+  function rollbackGrant(){
+    try{
+      localStorage.setItem(KEY,JSON.stringify({analytics:false}));
+      if(JSON.parse(localStorage.getItem(KEY)||'null')?.analytics===false)return true;
+    }catch{}
+    try{
+      localStorage.removeItem(KEY);
+      return localStorage.getItem(KEY)===null;
+    }catch{return false;}
+  }
   function save(analytics){
     analytics=analytics===true;let stored=false,retained=false;
     if(!analytics){
@@ -71,13 +81,13 @@
         const current=state();if(current.failed||!current.analytics)throw Error('Choice unavailable');
         stored=true;
       }catch{
-        try{localStorage.setItem(KEY,JSON.stringify({analytics:false}));}catch{}
+        rollbackGrant();
         retained=retainDenial();
       }
     }
     let current=state();
     if(stored&&analytics&&!current.analytics){
-      try{localStorage.setItem(KEY,JSON.stringify({analytics:false}));}catch{}
+      rollbackGrant();
       retained=retainDenial();stored=false;current=state();
     }
     sync(stored?(current.analytics?messages.on:messages.off):(retained?messages.tab:messages.page),current);

@@ -51,8 +51,33 @@ for(const lang of ['id']){
  // An unreadable window marker cannot authorize an old grant.
  local=storage({[key]:'{"analytics":true}'});t=tab();t.nameReadFail=true;p=page(local,t);off(p);assert.equal(p.scripts.length,0);
  // Verify the final applied state if reads fail late during a Save.
- local=storage();p=page(local);const originalGet=local.getItem.bind(local);let reads=0;local.getItem=k=>{if(++reads>=8)throw Error('late read');return originalGet(k)};assert.equal(p.save(true).saved,false);off(p);assert.equal(JSON.parse(local.data.get(key)).analytics,false);assert.match(p.nodes['cookie-status'].textContent,/nonaktif/);
+ local=storage();p=page(local);const originalGet=local.getItem.bind(local);let reads=0;local.getItem=k=>{if(++reads>=8)throw Error('late read');return originalGet(k)};assert.equal(p.save(true).saved,false);off(p);assert.notEqual(JSON.parse(local.data.get(key)||'null')?.analytics,true);assert.match(p.nodes['cookie-status'].textContent,/nonaktif/);
  // An ignored local preference write cannot claim success or enable analytics.
  local=storage();p=page(local);local.ignoreWrite=true;assert.equal(p.save(true).saved,false);off(p);assert.equal(p.scripts.length,0);
  console.log('PASS '+lang+': real controls, loaded-grant denial/regrant, single library/config, split/independent storage failures, full new document and retained tab state, verified veto clearing, separate-tab storage events and effective UI, malformed/ignored writes.');
+}
+
+// Failed grant rollback must protect a healthy tab sharing only local preferences.
+{
+const KEY=key,GA=ga;
+function on(p){assert.equal(p.window[GA],false);assert.equal(p.effective(),'granted');assert.equal(p.scripts.length,1);assert.equal(p.configCount(),1);assert.equal(p.nodes.analytics.checked,true)}
+for(const loaded of [false,true])for(const failureRead of [3,4])for(const reads of ['once','persistent'])for(const mode of ['remove-works','remove-blocked','all-unavailable']){
+ const local=storage(loaded?{[KEY]:'{"analytics":true}'}:{}),t=tab(),p=page(local,t),healthy={getItem:k=>local.data.get(k)??null,setItem:(k,v)=>local.data.set(k,v),removeItem:k=>local.data.delete(k)},other=page(healthy,tab());
+ const get=local.getItem.bind(local),set=local.setItem.bind(local),remove=local.removeItem.bind(local);let count=0,wroteGrant=false,removals=0;
+ local.getItem=k=>{if(k===KEY){count++;if(reads==='once'?count===failureRead:count>=failureRead)throw Error('final read');}return get(k)};
+ local.setItem=(k,v)=>{if(k===KEY&&wroteGrant&&!JSON.parse(v).analytics)throw Error('rollback denial');set(k,v);if(k===KEY&&JSON.parse(v).analytics){wroteGrant=true;if(mode==='all-unavailable'){t.session.writeFail=true;t.nameWriteFail=true;}}};
+ local.removeItem=k=>{if(k===KEY){removals++;if(mode!=='remove-works')throw Error('rollback removal');}return remove(k)};
+ // Invoke the registered handler with the existing checkbox, rather than a synthetic control API.
+ p.nodes.analytics.checked=true;p.nodes['save-cookie'].handlers.click();off(p);assert(wroteGrant);const raw=local.data.get(KEY),message=p.nodes['cookie-status'].textContent;other.events.storage({key:KEY});const fresh=page(healthy,tab());
+ assert(removals>0);assert.doesNotMatch(message,/izin lama/);
+ if(mode==='remove-works'){
+  assert.equal(raw,undefined);off(other);off(fresh);assert.equal(fresh.scripts.length,0);
+  local.getItem=get;local.setItem=set;local.removeItem=remove;
+  p.nodes.analytics.checked=true;p.nodes['save-cookie'].handlers.click();on(p);p.nodes['save-cookie'].handlers.click();on(p);other.events.storage({key:KEY});on(other);
+  p.nodes['reject-cookie'].handlers.click();off(p);other.events.storage({key:KEY});off(other);p.nodes.analytics.checked=true;p.nodes['save-cookie'].handlers.click();on(p);
+ }else{
+  assert.equal(JSON.parse(raw).analytics,true);on(fresh);assert.match(message,/izin yang tersimpan mungkin masih ada di tab lain/);assert.match(message,mode==='all-unavailable'?/halaman ini/:/tab ini/);
+ }
+}
+console.log('PASS id:24 actual-handler rollback cases, empty/loaded grants, both late validation branches, removal recovery, honest total-unavailability feedback and fresh independent-session tabs.');
 }
