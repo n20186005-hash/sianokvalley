@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { getTopicsByGroup, TOPIC_GROUP_LABELS, TOPIC_GROUP_ORDER } from '../data/topics';
 
 const faq = [
   ['Apa nama tempat yang paling tepat dicari di peta?', 'Gunakan Taman Panorama, Panorama Ngarai Sianok, atau Sianok Valley Panoramic di Jalan Panorama, Kayu Kubu, Kecamatan Guguk Panjang, Kota Bukittinggi.'],
@@ -35,7 +36,7 @@ const faqLd = {
   mainEntity: faq.map(([q,a]) => ({ '@type':'Question', name:q, acceptedAnswer:{ '@type':'Answer', text:a } })),
 };
 ---
-<BaseLayout title="Taman Panorama Ngarai Sianok Bukittinggi: Jam, Tiket & Lokasi" description="Panduan Taman Panorama Ngarai Sianok di Bukittinggi: lokasi dan peta, perbedaan jam dari sumber bertanggal, tarif yang perlu dikonfirmasi, serta akses taman dan Lubang Japang." jsonLd={[attractionLd, faqLd]}>
+<BaseLayout title="Panorama Ngarai Sianok Bukittinggi: Lokasi, Tiket, Jam Buka & Panduan Wisata" description="Panduan Panorama Ngarai Sianok di Bukittinggi: lokasi dan peta, perbedaan jam dari sumber bertanggal, tarif yang perlu dikonfirmasi, akses taman dan Lubang Japang, serta topik sekitar Ngarai Sianok." jsonLd={[attractionLd, faqLd]}>
   <section class="relative min-h-[78vh] overflow-hidden bg-[#15251f] text-white">
     <img src="/images/ngarai-sianok-hero.jpg" alt="Ngarai Sianok dengan tebing hijau dan lembah di Bukittinggi" class="absolute inset-0 h-full w-full object-cover opacity-70" fetchpriority="high" />
     <div class="absolute inset-0 bg-[linear-gradient(90deg,rgba(15,32,25,.9)_0%,rgba(15,32,25,.58)_48%,rgba(15,32,25,.15)_100%)]"></div>
@@ -132,11 +133,39 @@ const faqLd = {
   <section class="shell py-20 md:py-28">
     <div class="grid gap-10 lg:grid-cols-[.9fr_1.1fr] lg:items-center"><div><p class="kicker">Destinasi sekitar</p><h2 class="display mt-4 text-5xl font-bold">Satu hari, beberapa lapis Bukittinggi.</h2><p class="mt-5 text-sm leading-7 text-[#667168]">Daftar ini adalah kandidat rencana, bukan jaminan lokasi dekat atau akses terkini. Selain konteks taman/Lubang Japang, alamat dan kondisi masuk masing-masing tujuan belum diverifikasi ulang; cek peta dan pengelola.</p></div><figure class="relative overflow-hidden rounded-[2rem]"><img src="/images/jam-gadang.jpg" alt="Jam Gadang di pusat Kota Bukittinggi" class="h-[430px] w-full object-cover" loading="lazy"/><figcaption class="absolute bottom-4 left-4 rounded-full bg-black/55 px-3 py-1.5 text-[11px] text-white backdrop-blur">Foto referensi: Crisco 1492 · CC BY-SA 4.0</figcaption></figure></div>
     <div class="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-4">{[
-      ['Jam Gadang','Kandidat landmark kota untuk ditelusuri terpisah; konfirmasikan lokasi, rute dan kondisi ruang publik.'],
-      ['Lubang Japang','Destinasi sejarah dengan akses, pembukaan dan ketentuan masuk yang perlu diperiksa terpisah.'],
-      ['Fort de Kock & Limpapeh','Kandidat destinasi terpisah; lokasi, jarak, tiket dan akses belum diverifikasi oleh panduan ini.'],
-      ['Rumah Kelahiran Bung Hatta','Kandidat museum untuk ditelusuri; periksa alamat, pembukaan, tiket dan izin masuk sebelum merencanakan kunjungan.'],
-    ].map(([t,d]) => <article class="card p-6"><h3 class="display text-xl font-bold">{t}</h3><p class="mt-3 text-sm leading-6 text-[#667168]">{d}</p></article>)}</div>
+      ['Jam Gadang','Landmark pusat kota untuk titik awal rute; konfirmasikan lokasi, rute, dan kondisi ruang publik.','/jam-gadang/'],
+      ['Lubang Japang','Terowongan sejarah dengan akses, pembukaan, dan ketentuan masuk yang perlu dikonfirmasi terpisah.','/lubang-japang/'],
+      ['Fort de Kock & Limpapeh','Kandidat destinasi terpisah; lokasi, jarak, tiket, dan akses belum diverifikasi; cek peta.','/benteng-fort-de-kock/'],
+      ['Rumah Kelahiran Bung Hatta','Museum sejarah untuk ditelusuri; periksa alamat, pembukaan, tiket sebelum merencanakan.','/rumah-kelahiran-bung-hatta/'],
+    ].map(([t,d,href]) => <a href={href} class="focus-ring group card block p-6 transition hover:border-[#9b4b35]/40"><h3 class="display text-xl font-bold text-[#21362e] group-hover:text-[#9b4b35]">{t}</h3><p class="mt-3 text-sm leading-6 text-[#667168]">{d}</p><span class="mt-4 inline-block text-xs font-bold text-[#9b4b35]">Baca panduan →</span></a>)}</div>
+  </section>
+
+  <section id="topik" class="section-rule bg-white/45 py-20 md:py-28">
+    <div class="shell">
+      <div class="flex flex-col justify-between gap-5 md:flex-row md:items-end">
+        <div><p class="kicker">Panduan topik</p><h2 class="display mt-4 max-w-3xl text-4xl font-bold tracking-tight md:text-5xl">Selami Ngarai Sianok lebih jauh.</h2></div>
+        <p class="max-w-md text-sm leading-6 text-[#657168]">Panduan tematik seputar bentang alam, rencana kunjungan, destinasi sekitar, kuliner, dan rute. Semua dibangun dari sumber yang dapat ditelusuri.</p>
+      </div>
+      <div class="mt-12 space-y-12">
+        {TOPIC_GROUP_ORDER.map((group) => {
+          const items = getTopicsByGroup(group);
+          if (items.length === 0) return null;
+          return (
+            <div>
+              <h3 class="text-xs font-extrabold uppercase tracking-[.18em] text-[#9b4b35]">{TOPIC_GROUP_LABELS[group]}</h3>
+              <div class="mt-5 gap-4 grid sm:grid-cols-2 lg:grid-cols-3">
+                {items.map((t) => (
+                  <a href={`/${t.slug}/`} class="focus-ring group flex flex-col rounded-2xl border border-[#21362e]/15 bg-[#fbf7ee] p-5 transition hover:border-[#9b4b35]/40">
+                    <p class="text-[11px] font-extrabold uppercase tracking-[.14em] text-[#9b4b35]">{t.content.kicker}</p>
+                    <p class="mt-2 font-bold leading-snug text-[#21362e] group-hover:text-[#9b4b35]">{t.content.h1}</p>
+                  </a>
+                ))}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
   </section>
 
   <section class="bg-[#9b4b35] py-20 text-[#fff8ef]">
@@ -158,7 +187,7 @@ const faqLd = {
 
   <section id="faq" class="shell py-20 md:py-28"><div class="grid gap-12 lg:grid-cols-[.62fr_1.38fr]"><div><p class="kicker">FAQ</p><h2 class="display mt-4 text-5xl font-bold">Pertanyaan sebelum berangkat.</h2></div><div class="divide-y divide-[#21362e]/15 border-y border-[#21362e]/15">{faq.map(([q,a],i) => <details class="group" open={i===0}><summary class="focus-ring flex cursor-pointer list-none items-center justify-between gap-5 rounded-lg py-5 font-bold"><span>{q}</span><span class="text-xl text-[#9b4b35] group-open:rotate-45">＋</span></summary><p class="max-w-3xl pb-6 pr-10 text-sm leading-7 text-[#667168]">{a}</p></details>)}</div></div></section>
 
-  <section class="bg-[#21362e] py-20 text-[#f3e9d5]"><div class="shell grid gap-10 lg:grid-cols-[.7fr_1.3fr]"><div><p class="text-xs font-extrabold tracking-[.2em] text-[#e7b9a5]">SUMBER & METODE</p><h2 class="display mt-4 text-4xl font-bold">Informasi yang bisa ditelusuri.</h2></div><div class="grid gap-4 md:grid-cols-2"><a class="rounded-2xl border border-white/15 p-5 hover:bg-white/5" href="https://visit.bukittinggikota.go.id/wisata/11/TAMAN%20PANORAMA%20%26%20LUBANG%20JAPANG" target="_blank" rel="noreferrer"><strong>Dinas Pariwisata Kota Bukittinggi ↗</strong><p class="mt-2 text-sm leading-6 text-white/65">Halaman diperiksa 19 Oktober 2026: jam dan tarif entri Taman Panorama & Lubang Japang; cakupan perlu dikonfirmasi.</p></a><a class="rounded-2xl border border-white/15 p-5 hover:bg-white/5" href="https://www.indonesia.travel/my/en/destination/sumatra/west-sumatra/bukittinggi---ngarai-sianok" target="_blank" rel="noreferrer"><strong>Indonesia Travel ↗</strong><p class="mt-2 text-sm leading-6 text-white/65">Gambaran Ngarai Sianok dan pengalaman kunjungan.</p></a><a class="rounded-2xl border border-white/15 p-5 hover:bg-white/5" href="https://psg.geologi.esdm.go.id/index.php/archives/pembahasan-penetapan-dan-evaluasi-geopark-nasional-tahun-2025/" target="_blank" rel="noreferrer"><strong>Pusat Survei Geologi ↗</strong><p class="mt-2 text-sm leading-6 text-white/65">Status dan evaluasi Geopark Nasional Ngarai Sianok–Maninjau.</p></a><a class="rounded-2xl border border-white/15 p-5 hover:bg-white/5" href="https://maps.app.goo.gl/Pb3rVNTMea9Z7Uby5" target="_blank" rel="noreferrer"><strong>Google Maps · 19 Oktober 2026 ↗</strong><p class="mt-2 text-sm leading-6 text-white/65">Sianok Valley Panoramic: 4,6/5 dari 4.974 ulasan; enam hari 09.30–17.30, Jumat tutup. Berbeda dari jadwal Dinas Pariwisata.</p></a></div><p class="lg:col-start-2 text-xs leading-6 text-white/50">Informasi operasional merupakan bagian yang paling mudah berubah. Untuk keputusan perjalanan penting, utamakan pengumuman pemerintah/pengelola dan kondisi lapangan terbaru.</p></div></section>
+  <section class="bg-[#21362e] py-20 text-[#f3e9d5]"><div class="shell grid gap-10 lg:grid-cols-[.7fr_1.3fr]"><div><p class="text-xs font-extrabold tracking-[.2em] text-[#e7b9a5]">SUMBER & METODE</p><h2 class="display mt-4 text-4xl font-bold">Informasi yang bisa ditelusuri.</h2></div><div class="grid gap-4 md:grid-cols-2"><a class="rounded-2xl border border-white/15 p-5 hover:bg-white/5" href="https://visit.bukittinggikota.go.id/wisata/11/TAMAN%20PANORAMA%20%26%20LUBANG%20JAPANG" target="_blank" rel="noreferrer"><strong>Dinas Pariwisata Kota Bukittinggi ↗</strong><p class="mt-2 text-sm leading-6 text-white/65">Halaman diperiksa 19 Oktober 2026: jam dan tarif entri Taman Panorama & Lubang Japang; cakupan perlu dikonfirmasi.</p></a><a class="rounded-2xl border border-white/15 p-5 hover:bg-white/5" href="https://www.indonesia.travel/my/en/destination/sumatra/west-sumatra/bukittinggi---ngarai-sianok" target="_blank" rel="noreferrer"><strong>Indonesia Travel ↗</strong><p class="mt-2 text-sm leading-6 text-white/65">Gambaran Ngarai Sianok dan pengalaman kunjungan.</p></a><a class="rounded-2xl border border-white/15 p-5 hover:bg-white/5" href="https://psg.geologi.esdm.go.id/index.php/archives/pembahasan-penetapan-dan-evaluasi-geopark-nasional-tahun-2025/" target="_blank" rel="noreferrer"><strong>Pusat Survei Geologi ↗</strong><p class="mt-2 text-sm leading-6 text-white/65">Status dan evaluasi Geopark Nasional Ngarai Sianok–Maninjau.</p></a><a class="rounded-2xl border border-white/15 p-5 hover:bg-white/5" href="https://maps.app.goo.gl/Pb3rVNTMea9Z7Uby5" target="_blank" rel="noreferrer"><strong>Google Maps · 19 Oktober 2026 ↗</strong><p class="mt-2 text-sm leading-6 text-white/65">Sianok Valley Panoramic: 4,6/5 dari sekitar 4.980 ulasan (Oktober 2026); enam hari 09.30–17.30, Jumat tutup. Berbeda dari jadwal Dinas Pariwisata.</p></a></div><p class="lg:col-start-2 text-xs leading-6 text-white/50">Informasi operasional merupakan bagian yang paling mudah berubah. Untuk keputusan perjalanan penting, utamakan pengumuman pemerintah/pengelola dan kondisi lapangan terbaru.</p></div></section>
 
   <section class="shell py-16"><p class="kicker">Kredit foto</p><p class="mt-4 text-sm leading-6">Foto referensi, bukan bukti kondisi kunjungan saat ini. Gambar ditampilkan dalam ukuran turunan sumber; bingkai halaman dapat memangkas tampilan.</p><div class="mt-5 grid gap-3 text-xs leading-6 text-[#667168] md:grid-cols-2">
 <p><a href="https://commons.wikimedia.org/wiki/File:Ngarai_Sianok_Bukittinggi.jpg">Ngarai Sianok Bukittinggi — Adhmi</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>. Foto utama.</p>
